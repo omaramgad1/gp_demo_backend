@@ -124,6 +124,11 @@ class PatientMedicalEntryListDoctorView(generics.GenericAPIView):
         if not medical_edit_code:
             return Response({'detail': 'Invalid medical edit code.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        if not medical_edit_code.is_valid():
+            medical_edit_code.status = 'E'
+            medical_edit_code.save()
+            return Response({'message': 'The medical edit code is expired or invalid'}, status=status.HTTP_400_BAD_REQUEST)
+
         appointment = get_object_or_404(Appointment, id=appointment_id)
         if appointment != medical_edit_code.appointment or appointment.status != 'R':
             return Response({'detail': 'Invalid appointment or the appointment is not completed.'}, status=status.HTTP_400_BAD_REQUEST)

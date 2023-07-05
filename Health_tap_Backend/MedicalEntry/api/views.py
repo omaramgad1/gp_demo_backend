@@ -134,6 +134,8 @@ def medical_entry_create(request, patient_id, appointment_id):
 
         # Check if the medical edit code is valid
         if not medical_edit_code.is_valid():
+            medical_edit_code.status = 'E'
+            medical_edit_code.save()
             return Response({'message': 'The medical edit code is expired or invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
         req_data = {
@@ -192,6 +194,8 @@ def medical_entry_update(request, medical_entry_id, patient_id, appointment_id):
 
         # Check if the medical edit code is valid
         if not medical_edit_code.is_valid():
+            medical_edit_code.status = 'E'
+            medical_edit_code.save()
             return Response({'message': 'The medical edit code is expired or invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Get the MedicalEntry object to update
