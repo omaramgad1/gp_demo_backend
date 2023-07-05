@@ -1,3 +1,6 @@
+from django.utils import timezone
+
+import pytz
 from MedicalEntry.pagination import EntriesPagination
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -102,11 +105,18 @@ def patient_medical_entry_list_doctor(request, patient_id, appointment_id):
 def medical_entry_create(request, patient_id, appointment_id):
     try:
         appointment = Appointment.objects.get(id=appointment_id)
-        print(appointment.doctor)
+        # print(appointment.doctor)
 
         if request.user.doctor != appointment.doctor:
             return Response({'error': "Invaild Appointment id"}, status=status.HTTP_401_UNAUTHORIZED)
+# 3
+        now = timezone.localtime()
+        tz = pytz.timezone('Africa/Cairo')
+        now = now.astimezone(tz)
 
+        if now.time() < appointment.start_time:
+            return Response({'error': 'Appointment has not started yet, you can not add medical entry before appointment start time '}, status=status.HTTP_404_NOT_FOUND)
+# 3s
         patient = Patient.objects.get(id=patient_id)
         try:
             MedicalEntry.objects.get(
@@ -162,7 +172,14 @@ def medical_entry_update(request, medical_entry_id, patient_id, appointment_id):
         appointment = Appointment.objects.get(id=appointment_id)
         if request.user.doctor != appointment.doctor:
             return Response({'error': "Invaild Appointment id"}, status=status.HTTP_401_UNAUTHORIZED)
+##################################
+        now = timezone.localtime()
+        tz = pytz.timezone('Africa/Cairo')
+        now = now.astimezone(tz)
 
+        if now.time() < appointment.start_time:
+            return Response({'error': 'Appointment has not started yet, you can not update medical entry before appointment start time '}, status=status.HTTP_404_NOT_FOUND)
+####################################
         # Get the patient object from the request data
         patient = Patient.objects.get(id=patient_id)
 
