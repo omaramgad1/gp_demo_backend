@@ -26,13 +26,13 @@ class DoctorManager(CustomUserManager):
 class Doctor(User):
     is_doctor = models.BooleanField(default=True)
     specialization = models.ForeignKey(
-        Specialization, on_delete=models.CASCADE, related_name='Specialization')
+        Specialization, on_delete=models.RESTRICT, related_name='Specialization')
     profLicenseNo = models.CharField(
         max_length=6, validators=[validate_profLicenseNum])
     city = models.ForeignKey(
-        City, on_delete=models.CASCADE, related_name='doctorsByCity')
+        City, on_delete=models.RESTRICT, related_name='doctorsByCity')
     district = models.ForeignKey(
-        District, on_delete=models.CASCADE, related_name='doctorsByDistrict')
+        District, on_delete=models.RESTRICT, related_name='doctorsByDistrict')
     address = models.CharField(max_length=255, null=True, blank=True)
     objects = DoctorManager()
 

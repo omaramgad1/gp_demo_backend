@@ -4,6 +4,7 @@ from Doctor.models import Doctor
 
 # Create your models here.
 
+
 class Review(models.Model):
     RATE_CHOICES = (
         (1, '1'),
@@ -12,10 +13,13 @@ class Review(models.Model):
         (4, '4'),
         (5, '5'),
     )
-    rate = models.IntegerField(choices=RATE_CHOICES,default='1')
+    rate = models.IntegerField(choices=RATE_CHOICES, default='1')
     comment = models.TextField(max_length=150)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE ,related_name="patient_reviews")
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name="doctor_reviews")
-    
+    patient = models.ForeignKey(
+        Patient, on_delete=models.RESTRICT, related_name="patient_reviews")
+    doctor = models.ForeignKey(
+        Doctor, on_delete=models.RESTRICT, related_name="doctor_reviews")
+
+
 class Meta:
-        verbose_name_plural = 'Reviews'
+    verbose_name_plural = 'Reviews'

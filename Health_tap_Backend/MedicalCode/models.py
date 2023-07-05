@@ -6,12 +6,12 @@ from Appointment.models import Appointment
 
 class MedicalEditCode(models.Model):
     patient = models.ForeignKey(
-        Patient, on_delete=models.CASCADE, related_name='medical_edit_codes')
+        Patient, on_delete=models.RESTRICT, related_name='medical_edit_codes')
     code = models.CharField(max_length=10, unique=True, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     expired_at = models.DateTimeField()
     appointment = models.OneToOneField(
-        Appointment, on_delete=models.CASCADE)
+        Appointment, on_delete=models.RESTRICT)
 
     STATUS_CHOICES = (
         ('V', 'Valid'),

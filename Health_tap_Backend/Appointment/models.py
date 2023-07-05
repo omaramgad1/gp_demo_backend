@@ -19,7 +19,7 @@ def validate_time_range(value):
 
 class Appointment(models.Model):
     doctor = models.ForeignKey(
-        Doctor, on_delete=models.CASCADE, related_name='appointments')
+        Doctor, on_delete=models.RESTRICT, related_name='appointments')
     date = models.DateField(validators=[validate_date_range])
     start_time = models.TimeField(
         validators=[validate_time_range])
@@ -47,3 +47,6 @@ class Appointment(models.Model):
         start_datetime = datetime.combine(self.date, self.start_time)
         end_datetime = start_datetime + timedelta(minutes=self.duration)
         return end_datetime.time()
+
+    def __str__(self):
+        return f'{self.doctor.email}_{self.date}_{self.start_time}'

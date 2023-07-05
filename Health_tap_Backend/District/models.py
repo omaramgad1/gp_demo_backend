@@ -8,7 +8,7 @@ class District(models.Model):
     name_en = models.CharField(max_length=255)
 
     city = models.ForeignKey(
-        City, on_delete=models.CASCADE, related_name='districts')
+        City, on_delete=models.RESTRICT, related_name='districts')
 
     class Meta:
         verbose_name_plural = 'Districts'
