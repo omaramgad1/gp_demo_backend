@@ -122,7 +122,7 @@ class PatientMedicalEntryListDoctorView(generics.GenericAPIView):
         medical_edit_code = MedicalEditCode.objects.filter(
             patient=patient, appointment=appointment, code=request.data.get('code')).first()
         if not medical_edit_code:
-            return Response({'detail': 'Invalid medical edit code.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'Invalid medical edit code.'}, status=status.HTTP_417_EXPECTATION_FAILED)
 
         if not medical_edit_code.is_valid():
             medical_edit_code.status = 'E'
