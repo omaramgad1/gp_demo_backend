@@ -7,13 +7,13 @@ from Doctor.models import Doctor
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['id', 'first_name', 'last_name']  
+        fields = ['id', 'first_name', 'last_name', 'profileImgUrl']
 
 
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
-        fields = ['id', 'first_name', 'last_name']  
+        fields = ['id', 'first_name', 'last_name']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
